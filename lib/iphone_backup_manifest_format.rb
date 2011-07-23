@@ -10,11 +10,10 @@ class ManifestString < BinData::Primitive
     :read_length => :len,
     :read_length => lambda { |data| data.len },
     :onlyif => lambda { |data| data.len != 65535 }
-  
+
   def get
     self.data
   end
-  
 end
 
 class IndexHeader < BinData::Record
@@ -28,11 +27,10 @@ class IndexRecord < BinData::Record
   string :key_bytes, :read_length => 20
   uint32 :data_offset
   uint16 :mode
-  
+
   def key_hex
     key_bytes.unpack('H*').join
   end
-  
 end
 
 class DataHeader < BinData::Record
@@ -50,13 +48,12 @@ class DataPropertySet < BinData::Primitive
   endian :big
   uint8 :len
   array :properties, :type => :data_property, :initial_length => :len
-  
+
   def get
     Hash[self.properties.map do |property|
       [property.name, property.data]
     end]
   end
-  
 end
 
 class DataRecord < BinData::Record
