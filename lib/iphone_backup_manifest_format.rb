@@ -8,8 +8,7 @@ class ManifestString < BinData::Primitive
   uint16 :len
   string :data,
     :read_length => :len,
-    :read_length => lambda { |data| data.len },
-    :onlyif => lambda { |data| data.len != 65535 }
+    :onlyif => lambda { self.len != 65535 }
 
   def get
     self.data
